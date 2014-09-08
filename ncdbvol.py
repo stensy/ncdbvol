@@ -11,60 +11,71 @@ Will utilize a file classifying the cystectomy codes for volume definition.
 
 import csv
 import operator
+import numpy as np
 
 ## create a list for the cystectomy codes
 cystlist = []
 with open('cystcodes.csv', 'rU') as cystdictin:
+	print "Creating cystectomy code dictionary."
 	cystreader = csv.reader(cystdictin)
 	for line in cystreader:
 		cystlist.append(line[0])
 
-print cystlist
-
-## create a dictionary for volume at each facility
-## should result with facvol which is a dict with yearly facility cx volume
-## and totfacvol which is a dict with total facility cx volume
+## create dictionaries for volume at each facility
+## will result with facvol which is a dict with yearly facility cx volume
+### totfacvol which is a dict with total facility cx volume
+### facyrvol which is a dict of dicts giving annual volume for each facility 1998-2006
 
 ### facility ID is in column 1 (0 indexed)
 ### year of DX is in column 16 (0 indexed)
 ### surgery code is in column 79 (0 indexed)
 
-facvol = {}
 totfacvol = {}
+facyrvol = {}
+medians = {}
 
 totalcysts = 0
 
 with open('ncdbnolabels.csv', 'rU') as ncdbin:
+	print "Reading NCDB file and writing volume dictionaries."
 	ncdb = csv.reader(ncdbin)
 	ncdb.next()
 	for row in ncdb:
-		if row[79] in cystlist:
-			totalcysts += 1
-			try:
-				totfacvol[row[1]] += 1
-			except:
-				totfacvol[row[1]] = 1
-
-			try:
-				facyear = str(row[16]) + str(row[1])
+		if int(row[16]) > 2006:
+			pass
+		else: 
+			if row[79] in cystlist:
+				totalcysts += 1
 				try:
-					facvol[facyear] += 1
+					totfacvol[row[1]] += 1
 				except:
-					facvol[facyear] = 1
-			except:
-				pass
+					totfacvol[row[1]] = 1
+
+				try:
+					facyrvol[row[1]][row[16]] += 1
+				except:
+					facyrvol[row[1]] = {'1998': 0, '1999': 0, '2000': 0, '2001': 0, 
+						'2002': 0, '2003': 0, '2004': 0, '2005': 0, '2006': 0}
+					facyrvol[row[1]][row[16]] += 1
+
+## Calculate the median volume for each facility from 1998-2006 
+## and write it to a dictionary
+print "Calculating median cystectomy volume values."
+for fac, facdict in facyrvol.items():
+	mediancysts = np.median(facdict.values())
+	medians[fac] = mediancysts
 
 with open('ncdbwithlabels.csv', 'rU') as infile:
+	print "Writing calculated values to outfile."
 	ncdb = csv.reader(infile)
 	headerrow = ncdb.next()
-	with open('ncdbwithlabels_volume.csv', 'w') as outfile:
+	with open('ncdbwithlabels_volume_out.csv', 'w') as outfile:
 		ncdbout = csv.writer(outfile)
-		headerrow.extend(['hosp_year_vol', 'hosp_tot_vol'])
+		headerrow.extend(['hosp_year_vol', 'hosp_tot_vol', 'median_annual_cysts'])
 		ncdbout.writerow(headerrow)
 		for row in ncdb:
 			try:
-				row.extend([facvol[(str(row[16]) + str(row[1]))], totfacvol[row[1]]])
+				row.extend([facyrvol[row[1]][row[16]], totfacvol[row[1]], medians[row[1]]])
 			except:
-				row.extend(['keyerror', 'keyerror'])
+				row.extend(['keyerror', 'keyerror', 'keyerror'])
 			ncdbout.writerow(row)
-
