@@ -31,6 +31,7 @@ no_chemo = 0
 no_chemo_2 = 0
 got_chemo = 0
 included_cases = 0
+missing_post_surg_timing = 0
 
 cystlist = []
 included_path_t = []
@@ -100,7 +101,7 @@ with open('ncdbnolabels_volume_out.csv', 'rU') as infile:
 				continue
 
 			## Only include transitional cell carcinoma
-			if row[18] in included_hist:
+			if row[18] in histlist:
 				histology_included += 1
 			else:
 				histology_cut += 1
@@ -135,7 +136,13 @@ with open('ncdbnolabels_volume_out.csv', 'rU') as infile:
 
 			## Only include chemo cases that received chemo within 90 days of surgery.
 			if row[45] == '3':
-				if row[49] <=90:
+				try:
+					days_post_surg = int(row[49])
+				except:
+					days_post_surg = 9999
+					missing_post_surg_timing += 1
+
+				if days_post_surg <=90:
 					adjuvant_included += 1
 				else:
 					adjuvant_cut += 1
@@ -168,5 +175,6 @@ print "Total number of patients included after adjuvant cut was: ", adjuvant_inc
 print "Total number of CUTS for adjuvant chemo timing was: ", adjuvant_cut
 print "For consistency, patients NOT receiving chemo after cystectomy was: ", no_chemo_2
 print "Final number of included cases was: ", included_cases
+print "Number of missing post surg timing values was: ", missing_post_surg_timing
 print "Total cases was %i, computed cases from cuts and included cases is %i." % (totalcases, included_cases + cut_cystectomies + cut_pathology + sequence_cut + histology_cut + radiation_cut + mortality_cut + chemo_cut + adjuvant_cut)
 
