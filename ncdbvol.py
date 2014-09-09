@@ -16,7 +16,7 @@ import numpy as np
 ## create a list for the cystectomy codes
 cystlist = []
 with open('cystcodes.csv', 'rU') as cystdictin:
-	print "Creating cystectomy code dictionary."
+	print "Creating cystectomy code list."
 	cystreader = csv.reader(cystdictin)
 	for line in cystreader:
 		cystlist.append(line[0])
@@ -65,17 +65,24 @@ for fac, facdict in facyrvol.items():
 	mediancysts = np.median(facdict.values())
 	medians[fac] = mediancysts
 
-with open('ncdbwithlabels.csv', 'rU') as infile:
+ncdbvars = []
+headerrow = []
+with open('ncdb_variables.csv', 'rU') as infile:
+	varread = csv.reader(infile)
+	varread.next()
+	for row in varread:
+		ncdbvars.append((row[0],row[1]))
+		headerrow.append(row[1])
+
+with open('ncdbnolabels.csv', 'rU') as infile:
 	print "Writing calculated values to outfile."
 	ncdb = csv.reader(infile)
-	headerrow = ncdb.next()
-	with open('ncdbwithlabels_volume_out.csv', 'w') as outfile:
+	ncdb.next()
+	with open('ncdbnolabels_volume_out.csv', 'w') as outfile:
 		ncdbout = csv.writer(outfile)
-		headerrow.extend(['hosp_year_vol', 'hosp_tot_vol', 'median_annual_cysts'])
 		ncdbout.writerow(headerrow)
 		for row in ncdb:
-			try:
-				row.extend([facyrvol[row[1]][row[16]], totfacvol[row[1]], medians[row[1]]])
-			except:
-				row.extend(['keyerror', 'keyerror', 'keyerror'])
-			ncdbout.writerow(row)
+			rowlist = []
+			for (colindex, varname) in ncdbvars:
+				rowlist.append(row[int(colindex)])
+			ncdbout.writerow(rowlist)

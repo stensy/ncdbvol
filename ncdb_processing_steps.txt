@@ -1,0 +1,30 @@
+STEPS IN DATA PROCESSING FOR NCDB: ADJUVANT CHEMO
+
+1. Extract data from the NCDB provided file.
+	## Use python file rdatamaker.py based on fields in ncdbfields.csv
+2. Create variable for median annual hospital-specific cystectomy volume.
+	## Use python file ncdbvol.py based on cystectomy codes in cystcodes.csv
+
+After creating above dataset, lines following executed via ncdbprocessing.py:
+
+3. Restrict dataset to bladder cancer cases undergoing cystectomy. 
+	## Cut is based on the cystectomy codes in the cystdict (cystcodes.csv)
+
+4. Restrict dataset to pathologic stage >= pT3, or pN+
+	## Cut is based on files included_path_t and included_path_n
+
+5. Restrict dataset to only one cancer site
+	## Only cases with sequence_number == 00 are included
+
+6. Restrict dataset to transitional cell carcinoma.
+	##
+7. Categorize patients into post-surgery chemo or no chemo.
+	##
+8. Restrict post-surgery chemo group to those receiving chemo within 90 days of surgery.
+	##
+9. Exclude patients receiving radiation therapy.
+	##
+10. Exclude patients dying within 30 days of surgery.
+	##
+11. Exclude patients receiving neoadjuvant therapy. 
+	##
