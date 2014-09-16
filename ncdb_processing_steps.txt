@@ -1,21 +1,17 @@
 STEPS IN DATA PROCESSING FOR NCDB: ADJUVANT CHEMO
 
 1. Extract data from the NCDB provided file.
-	## Use python file rdatamaker.py based on fields in ncdbfields.csv
-	
-2. Create variable for median annual hospital-specific cystectomy volume.
-	## Use python file ncdbvol.py based on cystectomy codes in cystcodes.csv
+	## Code is ported from the SAS / SPSS file provided by NCDB PUF
 
-After creating above dataset, lines following executed via ncdbprocessing.py:
+2. Create variable for median annual hospital-specific cystectomy volume.
 
 3. Restrict dataset to bladder cancer cases undergoing cystectomy. 
 	## Cut is based on the cystectomy codes in the cystdict (cystcodes.csv)
 
+    3a. If cystectomy was performed, create variable for diversion type.
+
 4. Restrict dataset to pathologic stage >= pT3, or pN+
 	## Cut is based on files included_path_t and included_path_n
-
-5. Restrict dataset to only one cancer site
-	## Only cases with sequence_number == 00 are included
 
 6. Restrict dataset to transitional cell carcinoma.
 	## Based on file included_hist.csv
@@ -26,10 +22,9 @@ After creating above dataset, lines following executed via ncdbprocessing.py:
 8. Exclude patients dying within 30 days of surgery.
 	## Only include if PUF_30_DAY_MORT_CD == 0
 
-9. Exclude patients receiving neoadjuvant therapy and categorize into post-surgery or no chemo.
-	## Only patients where RX_SUMM_SYSTEMIC_SUR_SEQ == 0 or 3
-		## This only includes patients who received NO CHEMO or ADJUVANT CHEMO
-		## which excludes RX_SUMM_SYSTEMIC_SUR_SEQ == 2, which is neoadjuvant chemo
+9. Exclude patients receiving neoadjuvant therapy and categorize into adjuvant or no chemo.
+	I. Created variable for time from surgery to chemotherapy (DX_CHEMO_STARTED_DAYS - DX_DEFSURG_STARTED_DAYS) -> days_adjuvant_chemo
+	II. Only included cases where RX_SUMM_CHEMO == '00' or days_adjuvant_chemo <= 90. 
 
-10. Restrict post-surgery chemo group to those receiving chemo within 90 days of surgery.
-	##
+10. Create variable for lymph node density.
+	## lymph_node_density = REGIONAL_NODES_POSITIVE / REGIONAL_NODES_EXAMINED

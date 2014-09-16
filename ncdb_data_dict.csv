@@ -1,0 +1,37 @@
+variable, column, dict
+facility_type, 2, {1: 'Community Cancer Program', 2: 'Comprehensive Community Cancer Program', 3: 'Academic/Research Program', 4: 'Other'}
+facility_location, 3, {1: 'New England', 2: 'Middle Atlantic', 3: 'South Atlantic', 4: 'East North Central', 5: 'East South Central', 6: 'West North Central', 7: 'West South Central', 8: 'Mountain', '9: Pacific'}
+sex, 5, {1: 'Male', 2: 'Female', 3: 'Other', 4: 'Transsexual', 9: 'Not stated'}
+race, 6, {1:'White', 2:'Black', 3:'American Indian or Aleutian or Eskimo', 4:'Chinese', 5:'Japanese', 6:'Filipino', 7:'Hawaiian', 8:'Korean', 10:'Vietnamese', 11:'Laotian', 12:'Hmong', 13:'Kampuchean', 14:'Thai', 15:'Asian Indian or Pakistani', 16:'Asian Indian', 17:'Pakistani', 20:'Micronesian NOS', 21:'Chamorran', 22:'Guamanian NOS', 25:'Polynesian NOS', 26:'Tahitian', 27:'Samoan', 28:'Tongan', 30:'Melanesian NOS', 31:'Fiji Islander', 32:'New Guinean', 96:'Other Asian', 97:'Pacific Islander NOS', 98:'Other', 99:'Unknown'}
+hispanic_origin, 7, {0: 'Non Spanish Non Hispanic', 1: 'Mexican Chicano', 2: 'Puerto Rican', 3: 'Cuban', 4: 'South Or Central American', 5: 'Other Spanish Hispanic', 6: 'Spanish NOS', 7:'Spanish Surname Only', 8:'Dominican', 9: 'Unknown'}
+insurance_status, 8, {0: 'Uninsured', 1: 'Private Insurance', 2: 'Medicaid', 3: 'Medicare', 4: 'Other Government Insurance', 9: 'Insurance Status Unknown'}
+median_income, 9, {1: '< $30000', 2: '$30000-34999', 3: '$35000-45999', 4: '>:$46000', 9: 'Not Available'}
+education, 10, {1: '>29%', 2: '20-28.9%', 3: '14-19.9%', 4: '< 14%', 9: 'Not Available'}
+urban_rural, 11, {1:'Counties in metro areas of 1 million population or more', 2:'Counties in metro areas of 250,000 to 1 million population', 3:'Counties in metro areas of fewer than 250,000 population', 4:'Urban population of 20,000 or more adjacent to a metro area', 5:'Urban population of 20,000 or more not adjacent to a metro area', 6:'Urban population of 2,500 to 19,999, adjacent to a metro area', 7:'Urban population of 2,500 to 19,999, not adjacent to a metro area', 8:'Completely rural or less than 2,500 urban population, adjacent to a metro area', 9:'Completely rural or less than 2,500 urban population, not adjacent to a metro area'}
+cancer_sequence, 14, {00: ''}
+cancer_class, 15, {0:'Dx at reporting facility, all treatment decisions done elsewhere', 10:'Dx and part or all of 1st course treatment or a decision not to treat was at the reporting facility, NOS', 11:'Dx in staff physician"s office and part of 1st course treatment at the reporting facility', 12:'Dx in a staff physician"s office and all of 1st course treatment at the reporting facility', 13:'Dx and part of first course Rx at reporting facility, part of first course treatment elsewhere', 14:'Dx at reporting facility and all first course treatment at the reporting facility', 20:'Dx elsewhere and all or part of 1st course treatment or a decision not to treat at the reporting facility, NOS', 21:'Dx elsewhere and part of 1st course treatment at the reporting facility part of first course treatment elsewhere', 22:'Dx elsewhere and all of first course treatment or a decision not to treat at the reporting facility'}
+primary_site, 17
+histology, 18
+behavior, 19
+grade, 20, {1:'Well differentiated, differentiated, NOS', 2:'Moderately differentiated, moderately well differentiated, intermediate differentiation', 3:'Poorly differentiated', 4:'Undifferentiated, anaplastic', 5:'T cell T-precursor', 6:'B cell, pre-B, B-precursor', 7:'Null cell non T-non B', 8:'NK (natural killer) cell', 9:'Cell type not determined, not stated or not applicable, unknown primaries, high grade dysplasia'}
+clin_t_stage, 23
+clin_n_stage, 24
+clin_m_stage, 25
+clin_tnm_stage, 26
+path_t_stage, 27
+path_n_stage, 28
+path_m_stage, 29
+path_tnm_stage, 30
+lymphovascular_invasion, 31
+surgery_code, 33
+surgical_margins, 34, {0:'No residual tumor All margins are grossly and microscopically negative', 1:'Residual tumor, NOS  Involvement is indicated, but not otherwise specified', 2:'Microscopic residual tumor Cannot be seen by the naked eye', 3:'Macroscopic residual tumor, Gross tumor of the primary site which is visible to the naked eye', 7:'Margins not evaluable, Cannot be assessed (indeterminate)', 8:'No primary site surgery, No surgical procedure of the primary site Diagnosed at autopsy', 9:'Unknown or not applicable'}
+readmit_30_day, 36, {0:'No surgical procedure of the primary site was performed, or patient not readmitted', 1:'Unplanned readmission within 30 days of discharge', 2:'Planned readmissino within 30 days of discharge', 3:'Planned and unplanned readmission within 30 days of discharge', 9:'Unknown if surgery recommended/performed, unknown if readmitted within 30 days of discharge'}
+radiation_code, 37
+chemo_treatment, 39
+chemo_surg_sequence, 40
+mortality_30_day, 41
+days_from_dx_to_last_contact, 42
+vital_status, 43
+fac_cx_vol, 44
+adjuvant_chemo, 45
+days_adjuvant_chemo, 46
